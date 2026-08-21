@@ -16,7 +16,7 @@
 
         Created:      23.11.2020 13:00:00
         Created By:   
-        Modified:     31.03.2026 08:46:32
+        Modified:     21.08.2026 13:24:32
         Modified By:  
 
     Device Info:
@@ -44,7 +44,7 @@
 #define OD_CNT_HB_PROD 1
 #define OD_CNT_SDO_SRV 1
 #define OD_CNT_SDO_CLI 1
-#define OD_CNT_TPDO 2
+#define OD_CNT_TPDO 3
 
 
 /*******************************************************************************
@@ -101,6 +101,14 @@ typedef struct {
         uint8_t SYNCStartValue;
     } x1801_TPDOCommunicationParameter;
     struct {
+        uint8_t highestSub_indexSupported;
+        uint32_t COB_IDUsedByTPDO;
+        uint8_t transmissionType;
+        uint16_t inhibitTime;
+        uint16_t eventTimer;
+        uint8_t SYNCStartValue;
+    } x1802_TPDOCommunicationParameter;
+    struct {
         uint8_t numberOfMappedApplicationObjectsInPDO;
         uint32_t applicationObject1;
         uint32_t applicationObject2;
@@ -122,6 +130,17 @@ typedef struct {
         uint32_t applicationObject7;
         uint32_t applicationObject8;
     } x1A01_TPDOMappingParameter;
+    struct {
+        uint8_t numberOfMappedApplicationObjectsInPDO;
+        uint32_t applicationObject1;
+        uint32_t applicationObject2;
+        uint32_t applicationObject3;
+        uint32_t applicationObject4;
+        uint32_t applicationObject5;
+        uint32_t applicationObject6;
+        uint32_t applicationObject7;
+        uint32_t applicationObject8;
+    } x1A02_TPDOMappingParameter;
 } OD_PERSIST_COMM_t;
 
 typedef struct {
@@ -142,6 +161,7 @@ typedef struct {
         uint8_t energy;
     } x2000_batteryInfo;
     uint8_t x2001_status;
+    uint8_t x2002_errorMCU;
 } OD_RAM_t;
 
 #ifndef OD_ATTR_PERSIST_COMM
@@ -182,10 +202,13 @@ extern OD_ATTR_OD OD_t *OD;
 #define OD_ENTRY_H1280 &OD->list[16]
 #define OD_ENTRY_H1800 &OD->list[17]
 #define OD_ENTRY_H1801 &OD->list[18]
-#define OD_ENTRY_H1A00 &OD->list[19]
-#define OD_ENTRY_H1A01 &OD->list[20]
-#define OD_ENTRY_H2000 &OD->list[21]
-#define OD_ENTRY_H2001 &OD->list[22]
+#define OD_ENTRY_H1802 &OD->list[19]
+#define OD_ENTRY_H1A00 &OD->list[20]
+#define OD_ENTRY_H1A01 &OD->list[21]
+#define OD_ENTRY_H1A02 &OD->list[22]
+#define OD_ENTRY_H2000 &OD->list[23]
+#define OD_ENTRY_H2001 &OD->list[24]
+#define OD_ENTRY_H2002 &OD->list[25]
 
 
 /*******************************************************************************
@@ -210,10 +233,13 @@ extern OD_ATTR_OD OD_t *OD;
 #define OD_ENTRY_H1280_SDOClientParameter &OD->list[16]
 #define OD_ENTRY_H1800_TPDOCommunicationParameter &OD->list[17]
 #define OD_ENTRY_H1801_TPDOCommunicationParameter &OD->list[18]
-#define OD_ENTRY_H1A00_TPDOMappingParameter &OD->list[19]
-#define OD_ENTRY_H1A01_TPDOMappingParameter &OD->list[20]
-#define OD_ENTRY_H2000_batteryInfo &OD->list[21]
-#define OD_ENTRY_H2001_status &OD->list[22]
+#define OD_ENTRY_H1802_TPDOCommunicationParameter &OD->list[19]
+#define OD_ENTRY_H1A00_TPDOMappingParameter &OD->list[20]
+#define OD_ENTRY_H1A01_TPDOMappingParameter &OD->list[21]
+#define OD_ENTRY_H1A02_TPDOMappingParameter &OD->list[22]
+#define OD_ENTRY_H2000_batteryInfo &OD->list[23]
+#define OD_ENTRY_H2001_status &OD->list[24]
+#define OD_ENTRY_H2002_errorMCU &OD->list[25]
 
 
 /*******************************************************************************

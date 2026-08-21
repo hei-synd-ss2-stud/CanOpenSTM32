@@ -61,6 +61,14 @@ OD_ATTR_PERSIST_COMM OD_PERSIST_COMM_t OD_PERSIST_COMM = {
         .eventTimer = 0x0000,
         .SYNCStartValue = 0x00
     },
+    .x1802_TPDOCommunicationParameter = {
+        .highestSub_indexSupported = 0x06,
+        .COB_IDUsedByTPDO = 0x00000504,
+        .transmissionType = 0xFE,
+        .inhibitTime = 0x0000,
+        .eventTimer = 0x0000,
+        .SYNCStartValue = 0x00
+    },
     .x1A00_TPDOMappingParameter = {
         .numberOfMappedApplicationObjectsInPDO = 0x03,
         .applicationObject1 = 0x20000110,
@@ -75,6 +83,17 @@ OD_ATTR_PERSIST_COMM OD_PERSIST_COMM_t OD_PERSIST_COMM = {
     .x1A01_TPDOMappingParameter = {
         .numberOfMappedApplicationObjectsInPDO = 0x01,
         .applicationObject1 = 0x20010008,
+        .applicationObject2 = 0x00000000,
+        .applicationObject3 = 0x00000000,
+        .applicationObject4 = 0x00000000,
+        .applicationObject5 = 0x00000000,
+        .applicationObject6 = 0x00000000,
+        .applicationObject7 = 0x00000000,
+        .applicationObject8 = 0x00000000
+    },
+    .x1A02_TPDOMappingParameter = {
+        .numberOfMappedApplicationObjectsInPDO = 0x01,
+        .applicationObject1 = 0x20020008,
         .applicationObject2 = 0x00000000,
         .applicationObject3 = 0x00000000,
         .applicationObject4 = 0x00000000,
@@ -102,7 +121,8 @@ OD_ATTR_RAM OD_RAM_t OD_RAM = {
         .current = 0,
         .energy = 0x00
     },
-    .x2001_status = 0x00
+    .x2001_status = 0x00,
+    .x2002_errorMCU = 0x00
 };
 
 
@@ -130,10 +150,13 @@ typedef struct {
     OD_obj_record_t o_1280_SDOClientParameter[4];
     OD_obj_record_t o_1800_TPDOCommunicationParameter[6];
     OD_obj_record_t o_1801_TPDOCommunicationParameter[6];
+    OD_obj_record_t o_1802_TPDOCommunicationParameter[6];
     OD_obj_record_t o_1A00_TPDOMappingParameter[9];
     OD_obj_record_t o_1A01_TPDOMappingParameter[9];
+    OD_obj_record_t o_1A02_TPDOMappingParameter[9];
     OD_obj_record_t o_2000_batteryInfo[4];
     OD_obj_var_t o_2001_status;
+    OD_obj_var_t o_2002_errorMCU;
 } ODObjs_t;
 
 static CO_PROGMEM ODObjs_t ODObjs = {
@@ -373,6 +396,44 @@ static CO_PROGMEM ODObjs_t ODObjs = {
             .dataLength = 1
         }
     },
+    .o_1802_TPDOCommunicationParameter = {
+        {
+            .dataOrig = &OD_PERSIST_COMM.x1802_TPDOCommunicationParameter.highestSub_indexSupported,
+            .subIndex = 0,
+            .attribute = ODA_SDO_R,
+            .dataLength = 1
+        },
+        {
+            .dataOrig = &OD_PERSIST_COMM.x1802_TPDOCommunicationParameter.COB_IDUsedByTPDO,
+            .subIndex = 1,
+            .attribute = ODA_SDO_RW | ODA_MB,
+            .dataLength = 4
+        },
+        {
+            .dataOrig = &OD_PERSIST_COMM.x1802_TPDOCommunicationParameter.transmissionType,
+            .subIndex = 2,
+            .attribute = ODA_SDO_RW,
+            .dataLength = 1
+        },
+        {
+            .dataOrig = &OD_PERSIST_COMM.x1802_TPDOCommunicationParameter.inhibitTime,
+            .subIndex = 3,
+            .attribute = ODA_SDO_RW | ODA_MB,
+            .dataLength = 2
+        },
+        {
+            .dataOrig = &OD_PERSIST_COMM.x1802_TPDOCommunicationParameter.eventTimer,
+            .subIndex = 5,
+            .attribute = ODA_SDO_RW | ODA_MB,
+            .dataLength = 2
+        },
+        {
+            .dataOrig = &OD_PERSIST_COMM.x1802_TPDOCommunicationParameter.SYNCStartValue,
+            .subIndex = 6,
+            .attribute = ODA_SDO_RW,
+            .dataLength = 1
+        }
+    },
     .o_1A00_TPDOMappingParameter = {
         {
             .dataOrig = &OD_PERSIST_COMM.x1A00_TPDOMappingParameter.numberOfMappedApplicationObjectsInPDO,
@@ -485,6 +546,62 @@ static CO_PROGMEM ODObjs_t ODObjs = {
             .dataLength = 4
         }
     },
+    .o_1A02_TPDOMappingParameter = {
+        {
+            .dataOrig = &OD_PERSIST_COMM.x1A02_TPDOMappingParameter.numberOfMappedApplicationObjectsInPDO,
+            .subIndex = 0,
+            .attribute = ODA_SDO_RW,
+            .dataLength = 1
+        },
+        {
+            .dataOrig = &OD_PERSIST_COMM.x1A02_TPDOMappingParameter.applicationObject1,
+            .subIndex = 1,
+            .attribute = ODA_SDO_RW | ODA_MB,
+            .dataLength = 4
+        },
+        {
+            .dataOrig = &OD_PERSIST_COMM.x1A02_TPDOMappingParameter.applicationObject2,
+            .subIndex = 2,
+            .attribute = ODA_SDO_RW | ODA_MB,
+            .dataLength = 4
+        },
+        {
+            .dataOrig = &OD_PERSIST_COMM.x1A02_TPDOMappingParameter.applicationObject3,
+            .subIndex = 3,
+            .attribute = ODA_SDO_RW | ODA_MB,
+            .dataLength = 4
+        },
+        {
+            .dataOrig = &OD_PERSIST_COMM.x1A02_TPDOMappingParameter.applicationObject4,
+            .subIndex = 4,
+            .attribute = ODA_SDO_RW | ODA_MB,
+            .dataLength = 4
+        },
+        {
+            .dataOrig = &OD_PERSIST_COMM.x1A02_TPDOMappingParameter.applicationObject5,
+            .subIndex = 5,
+            .attribute = ODA_SDO_RW | ODA_MB,
+            .dataLength = 4
+        },
+        {
+            .dataOrig = &OD_PERSIST_COMM.x1A02_TPDOMappingParameter.applicationObject6,
+            .subIndex = 6,
+            .attribute = ODA_SDO_RW | ODA_MB,
+            .dataLength = 4
+        },
+        {
+            .dataOrig = &OD_PERSIST_COMM.x1A02_TPDOMappingParameter.applicationObject7,
+            .subIndex = 7,
+            .attribute = ODA_SDO_RW | ODA_MB,
+            .dataLength = 4
+        },
+        {
+            .dataOrig = &OD_PERSIST_COMM.x1A02_TPDOMappingParameter.applicationObject8,
+            .subIndex = 8,
+            .attribute = ODA_SDO_RW | ODA_MB,
+            .dataLength = 4
+        }
+    },
     .o_2000_batteryInfo = {
         {
             .dataOrig = &OD_RAM.x2000_batteryInfo.highestSub_indexSupported,
@@ -515,6 +632,11 @@ static CO_PROGMEM ODObjs_t ODObjs = {
         .dataOrig = &OD_RAM.x2001_status,
         .attribute = ODA_SDO_RW | ODA_TPDO,
         .dataLength = 1
+    },
+    .o_2002_errorMCU = {
+        .dataOrig = &OD_RAM.x2002_errorMCU,
+        .attribute = ODA_SDO_RW | ODA_TPDO,
+        .dataLength = 1
     }
 };
 
@@ -542,10 +664,13 @@ static OD_ATTR_OD OD_entry_t ODList[] = {
     {0x1280, 0x04, ODT_REC, &ODObjs.o_1280_SDOClientParameter, NULL},
     {0x1800, 0x06, ODT_REC, &ODObjs.o_1800_TPDOCommunicationParameter, NULL},
     {0x1801, 0x06, ODT_REC, &ODObjs.o_1801_TPDOCommunicationParameter, NULL},
+    {0x1802, 0x06, ODT_REC, &ODObjs.o_1802_TPDOCommunicationParameter, NULL},
     {0x1A00, 0x09, ODT_REC, &ODObjs.o_1A00_TPDOMappingParameter, NULL},
     {0x1A01, 0x09, ODT_REC, &ODObjs.o_1A01_TPDOMappingParameter, NULL},
+    {0x1A02, 0x09, ODT_REC, &ODObjs.o_1A02_TPDOMappingParameter, NULL},
     {0x2000, 0x04, ODT_REC, &ODObjs.o_2000_batteryInfo, NULL},
     {0x2001, 0x01, ODT_VAR, &ODObjs.o_2001_status, NULL},
+    {0x2002, 0x01, ODT_VAR, &ODObjs.o_2002_errorMCU, NULL},
     {0x0000, 0x00, 0, NULL, NULL}
 };
 
