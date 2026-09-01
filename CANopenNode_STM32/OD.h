@@ -16,7 +16,7 @@
 
         Created:      23.11.2020 13:00:00
         Created By:   
-        Modified:     28.08.2026 10:22:11
+        Modified:     31.08.2026 10:07:17
         Modified By:  
 
     Device Info:
@@ -45,7 +45,7 @@
 #define OD_CNT_SDO_SRV 1
 #define OD_CNT_SDO_CLI 1
 #define OD_CNT_RPDO 1
-#define OD_CNT_TPDO 4
+#define OD_CNT_TPDO 5
 
 
 /*******************************************************************************
@@ -135,6 +135,14 @@ typedef struct {
         uint8_t SYNCStartValue;
     } x1803_TPDOCommunicationParameter;
     struct {
+        uint8_t highestSub_indexSupported;
+        uint32_t COB_IDUsedByTPDO;
+        uint8_t transmissionType;
+        uint16_t inhibitTime;
+        uint16_t eventTimer;
+        uint8_t SYNCStartValue;
+    } x1804_TPDOCommunicationParameter;
+    struct {
         uint8_t numberOfMappedApplicationObjectsInPDO;
         uint32_t applicationObject1;
         uint32_t applicationObject2;
@@ -178,6 +186,17 @@ typedef struct {
         uint32_t applicationObject7;
         uint32_t applicationObject8;
     } x1A03_TPDOMappingParameter;
+    struct {
+        uint8_t numberOfMappedApplicationObjectsInPDO;
+        uint32_t applicationObject1;
+        uint32_t applicationObject2;
+        uint32_t applicationObject3;
+        uint32_t applicationObject4;
+        uint32_t applicationObject5;
+        uint32_t applicationObject6;
+        uint32_t applicationObject7;
+        uint32_t applicationObject8;
+    } x1A04_TPDOMappingParameter;
 } OD_PERSIST_COMM_t;
 
 typedef struct {
@@ -245,15 +264,17 @@ extern OD_ATTR_OD OD_t *OD;
 #define OD_ENTRY_H1801 &OD->list[20]
 #define OD_ENTRY_H1802 &OD->list[21]
 #define OD_ENTRY_H1803 &OD->list[22]
-#define OD_ENTRY_H1A00 &OD->list[23]
-#define OD_ENTRY_H1A01 &OD->list[24]
-#define OD_ENTRY_H1A02 &OD->list[25]
-#define OD_ENTRY_H1A03 &OD->list[26]
-#define OD_ENTRY_H2000 &OD->list[27]
-#define OD_ENTRY_H2001 &OD->list[28]
-#define OD_ENTRY_H2002 &OD->list[29]
-#define OD_ENTRY_H2003 &OD->list[30]
-#define OD_ENTRY_H2004 &OD->list[31]
+#define OD_ENTRY_H1804 &OD->list[23]
+#define OD_ENTRY_H1A00 &OD->list[24]
+#define OD_ENTRY_H1A01 &OD->list[25]
+#define OD_ENTRY_H1A02 &OD->list[26]
+#define OD_ENTRY_H1A03 &OD->list[27]
+#define OD_ENTRY_H1A04 &OD->list[28]
+#define OD_ENTRY_H2000 &OD->list[29]
+#define OD_ENTRY_H2001 &OD->list[30]
+#define OD_ENTRY_H2002 &OD->list[31]
+#define OD_ENTRY_H2003 &OD->list[32]
+#define OD_ENTRY_H2004 &OD->list[33]
 
 
 /*******************************************************************************
@@ -282,15 +303,17 @@ extern OD_ATTR_OD OD_t *OD;
 #define OD_ENTRY_H1801_TPDOCommunicationParameter &OD->list[20]
 #define OD_ENTRY_H1802_TPDOCommunicationParameter &OD->list[21]
 #define OD_ENTRY_H1803_TPDOCommunicationParameter &OD->list[22]
-#define OD_ENTRY_H1A00_TPDOMappingParameter &OD->list[23]
-#define OD_ENTRY_H1A01_TPDOMappingParameter &OD->list[24]
-#define OD_ENTRY_H1A02_TPDOMappingParameter &OD->list[25]
-#define OD_ENTRY_H1A03_TPDOMappingParameter &OD->list[26]
-#define OD_ENTRY_H2000_batteryInfo &OD->list[27]
-#define OD_ENTRY_H2001_status &OD->list[28]
-#define OD_ENTRY_H2002_errorMCU &OD->list[29]
-#define OD_ENTRY_H2003_shutdown_pwm &OD->list[30]
-#define OD_ENTRY_H2004_bus_voltage &OD->list[31]
+#define OD_ENTRY_H1804_TPDOCommunicationParameter &OD->list[23]
+#define OD_ENTRY_H1A00_TPDOMappingParameter &OD->list[24]
+#define OD_ENTRY_H1A01_TPDOMappingParameter &OD->list[25]
+#define OD_ENTRY_H1A02_TPDOMappingParameter &OD->list[26]
+#define OD_ENTRY_H1A03_TPDOMappingParameter &OD->list[27]
+#define OD_ENTRY_H1A04_TPDOMappingParameter &OD->list[28]
+#define OD_ENTRY_H2000_batteryInfo &OD->list[29]
+#define OD_ENTRY_H2001_status &OD->list[30]
+#define OD_ENTRY_H2002_errorMCU &OD->list[31]
+#define OD_ENTRY_H2003_shutdown_pwm &OD->list[32]
+#define OD_ENTRY_H2004_bus_voltage &OD->list[33]
 
 
 /*******************************************************************************
